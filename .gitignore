@@ -1,0 +1,13 @@
+build/
+
+# Runtime storage
+storage/*.db
+
+# Visual Studio
+.vs/
+*.VC.db
+*.VC.opendb
+
+# CMake and temporary files
+CMakeUserPresets.json
+*.tmp
