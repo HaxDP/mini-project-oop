@@ -1,0 +1,107 @@
+classDiagram
+
+namespace Domain {
+  class Movie {
+    -string id
+    -string title
+    -string genre
+    -int durationMinutes
+  }
+
+  class Hall {
+    -string id
+    -string name
+    -int rows
+    -int seatsPerRow
+    +bool contains(seat)
+  }
+
+  class Session {
+    -string id
+    -string movieId
+    -string hallId
+    -string startAt
+    -double basePrice
+    +reserveSeat(seat)
+    +markSeatAsSold(seat)
+    +double occupancyRate()
+  }
+
+  class Reservation {
+    -string id
+    -string sessionId
+    -Seat seat
+    -string customerName
+    -double finalPrice
+    -ReservationStatus status
+  }
+
+  class Ticket {
+    -string id
+    -string reservationId
+    -string sessionId
+    -double paidAmount
+  }
+
+  class Seat
+
+  class IMovieRepository {
+    <<interface>>
+  }
+  class IHallRepository {
+    <<interface>>
+  }
+  class ISessionRepository {
+    <<interface>>
+  }
+  class IReservationRepository {
+    <<interface>>
+  }
+  class ITicketRepository {
+    <<interface>>
+  }
+
+  class IPricingStrategy {
+    <<interface>>
+    +double calculatePrice(...)
+  }
+
+  class DynamicPricingStrategy
+  IPricingStrategy <|.. DynamicPricingStrategy
+}
+
+namespace Application {
+  class CinemaService
+  class QueryService
+}
+
+namespace Infrastructure {
+  class FileMovieRepository
+  class FileHallRepository
+  class FileSessionRepository
+  class FileReservationRepository
+  class FileTicketRepository
+  class RepositoryFactory
+}
+
+CinemaService ..> IMovieRepository
+CinemaService ..> IHallRepository
+CinemaService ..> ISessionRepository
+CinemaService ..> IReservationRepository
+CinemaService ..> ITicketRepository
+CinemaService ..> IPricingStrategy
+
+QueryService ..> IMovieRepository
+QueryService ..> ISessionRepository
+QueryService ..> ITicketRepository
+
+IMovieRepository <|.. FileMovieRepository
+IHallRepository <|.. FileHallRepository
+ISessionRepository <|.. FileSessionRepository
+IReservationRepository <|.. FileReservationRepository
+ITicketRepository <|.. FileTicketRepository
+
+Session --> Movie
+Session --> Hall
+Reservation --> Session
+Ticket --> Reservation

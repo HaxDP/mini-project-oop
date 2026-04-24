@@ -1,0 +1,24 @@
+flowchart LR
+
+  Admin([Адміністратор])
+  Cashier([Касир])
+
+  subgraph CinemaOOP
+    UC1((Додати фільм))
+    UC2((Додати зал))
+    UC3((Створити сеанс))
+    UC4((Забронювати місце))
+    UC5((Викупити бронювання))
+    UC6((Скасувати бронювання))
+    UC7((Переглянути аналітику))
+  end
+
+  Admin --> UC1
+  Admin --> UC2
+  Admin --> UC3
+  Cashier --> UC4
+  Cashier --> UC5
+  Cashier --> UC6
+  Admin --> UC7
+
+  UC5 -. "<<include>>" .-> UC4

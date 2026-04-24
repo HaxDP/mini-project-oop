@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor User as Касир
+    participant UI as ConsoleApp
+    participant App as CinemaService
+    participant Sessions as ISessionRepository
+    participant Reservations as IReservationRepository
+
+    User->>UI: Забронювати місце
+    UI->>App: reserveSeat(sessionId, row, number, customer)
+    App->>Sessions: findById(sessionId)
+    Sessions-->>App: session
+
+    alt Місце недоступне або невалідне
+        App-->>UI: Result.Failure("Помилка")
+        UI-->>User: Показати помилку
+    else Успіх
+        App->>Sessions: upsert(updatedSession)
+        App->>Reservations: upsert(newReservation)
+        App-->>UI: Result.Success(reservation)
+        UI-->>User: Показати ID бронювання
+    end
