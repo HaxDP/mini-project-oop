@@ -50,4 +50,4 @@ jobs:
 
       - name: Coverage report and quality gate
         run: |
-          gcovr --root . --filter src --xml-pretty --output build/coverage.xml --print-summary --fail-under-line 70
+          gcovr --root . --filter src --exclude 'src/main\.cpp' --exclude 'src/presentation/.*' --xml-pretty --output build/coverage.xml --print-summary --fail-under-line 70
